@@ -2,7 +2,13 @@ from bookshelf.models import Author, Book, Library, Librarian
 
 # 1. Query all books by a specific author
 def books_by_author(author_name):
-    return Book.objects.filter(author__name=author_name)
+    try:
+        # 1. Get the author object by name
+        author = Author.objects.get(name=author_name)
+        # 2. Get all books written by this author
+        return Book.objects.filter(author=author)
+    except Author.DoesNotExist:
+        return Book.objects.none()
 
 # 2. List all books in a library
 def books_in_library(library_name):
