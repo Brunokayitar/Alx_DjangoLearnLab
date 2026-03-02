@@ -18,13 +18,13 @@ All endpoints are prefixed with `/api/`.
 
 ### Book CRUD Operations
 
-| Method | URL                         | Description               | Authentication Required |
-|--------|-----------------------------|---------------------------|-------------------------|
-| GET    | `/books/`                    | List all books            | No                      |
-| GET    | `/books/<int:pk>/`           | Retrieve a single book    | No                      |
-| POST   | `/books/create/`             | Create a new book         | Yes                     |
-| PUT    | `/books/<int:pk>/update/`    | Update an existing book   | Yes                     |
-| DELETE | `/books/<int:pk>/delete/`    | Delete a book             | Yes                     |
+| Method | URL                       | Description             | Authentication Required |
+| ------ | ------------------------- | ----------------------- | ----------------------- |
+| GET    | `/books/`                 | List all books          | No                      |
+| GET    | `/books/<int:pk>/`        | Retrieve a single book  | No                      |
+| POST   | `/books/create/`          | Create a new book       | Yes                     |
+| PUT    | `/books/<int:pk>/update/` | Update an existing book | Yes                     |
+| DELETE | `/books/<int:pk>/delete/` | Delete a book           | Yes                     |
 
 ## Filtering, Searching, and Ordering
 
@@ -40,8 +40,8 @@ The **list endpoint** (`/api/books/`) supports advanced querying:
 
 - **Ordering** by `title` or `publication_year` (prefix `-` for descending):  
   `?ordering=<field>`  
-  Examples:  
-  - `/api/books/?ordering=publication_year` (ascending)  
+  Examples:
+  - `/api/books/?ordering=publication_year` (ascending)
   - `/api/books/?ordering=-title` (descending)
 
 You can combine these:  
@@ -56,7 +56,40 @@ You can combine these:
 ## Testing with curl
 
 **Obtain a token** (if token auth is enabled):
+
 ```bash
 curl -X POST http://127.0.0.1:8000/api/api-token-auth/ \
      -H "Content-Type: application/json" \
      -d '{"username":"your_username","password":"your_password"}'
+
+## Filtering, Searching, and Ordering
+
+The book list endpoint `/api/books/` supports:
+
+- **Filtering** by `author` (exact match):
+  `?author=<author_id>`
+  Example: `/api/books/?author=1`
+
+- **Searching** on `title` and `author__name` (partial, case‑insensitive):
+  `?search=<keyword>`
+  Example: `/api/books/?search=django`
+
+- **Ordering** by `title` or `publication_year`:
+  `?ordering=<field>` (prefix `-` for descending)
+  Examples:
+  - `/api/books/?ordering=publication_year` (ascending)
+  - `/api/books/?ordering=-title` (descending)
+
+You can combine these parameters:
+`/api/books/?search=django&ordering=publication_year&author=1`
+```
+
+## Testing
+
+The API is thoroughly tested using Django's test framework and Django REST Framework's `APITestCase`. Tests are located in `api/test_views.py`.
+
+To run the tests:
+
+```bash
+python manage.py test api
+```
