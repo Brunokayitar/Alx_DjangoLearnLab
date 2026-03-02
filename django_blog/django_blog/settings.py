@@ -121,11 +121,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],   # you can add global template directories if needed
-        'APP_DIRS': True,   # this tells Django to look inside app templates/
-        
-    },
-]
