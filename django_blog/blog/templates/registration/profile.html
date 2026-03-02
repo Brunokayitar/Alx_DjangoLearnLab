@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <style>
+      body {
+        font-family: Arial;
+        margin: 40px;
+      }
+      .success {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Profile</h2>
+    <p>Welcome, {{ user.username }}!</p>
+    <form method="post">
+      {% csrf_token %}
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        value="{{ user.email }}"
+        required
+      />
+      <button type="submit">Update Email</button>
+    </form>
+
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+
+    {% if messages %} {% for message in messages %}
+    <p class="{{ message.tags }}">{{ message }}</p>
+    {% endfor %} {% endif %}
+  </body>
+</html>
