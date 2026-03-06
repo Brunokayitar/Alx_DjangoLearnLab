@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>{% if tag %}Posts tagged with "{{ tag }}"{% else %}All Blog Posts{% endif %}</h2>
+    <h2>Search Results for "{{ query }}"</h2>
     {% if posts %}
         {% for post in posts %}
             <article class="post-preview">
@@ -19,6 +19,6 @@
             <hr>
         {% endfor %}
     {% else %}
-        <p>No posts found.</p>
+        <p>No posts match your search.</p>
     {% endif %}
 {% endblock %}
