@@ -1,18 +1,16 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>Blog Posts</h1>
-    <ul>
-      {% for post in posts %}
-      <li>{{ post.title }} - {{ post.published_date }}</li>
-      {% empty %}
-      <li>No posts yet.</li>
-      {% endfor %}
-    </ul>
-  </body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+    <h2>All Blog Posts</h2>
+    {% if posts %}
+        {% for post in posts %}
+            <article class="post-preview">
+                <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h3>
+                <p class="post-meta">By {{ post.author }} on {{ post.published_date|date:"F d, Y" }}</p>
+                <p>{{ post.content|truncatewords:30 }}</p>
+            </article>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>No posts yet.</p>
+    {% endif %}
+{% endblock %}
