@@ -138,13 +138,13 @@ class PostByTagListView(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self):
-        tag_name = self.kwargs.get('tag_name')
-        tag = get_object_or_404(Tag, name=tag_name)
+        tag_slug = self.kwargs.get(.tag_slug.)
+        tag = get_object_or_404(Tag, name=tag_slug)
         return tag.posts.all().order_by('-published_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tag'] = self.kwargs.get('tag_name')
+        context['tag'] = self.kwargs.get('tag_slug')
         return context
 
 def search(request):
