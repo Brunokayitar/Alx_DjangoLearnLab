@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from taggit.widgets import TagWidget
+from .models import Post, Comment, Tag
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -16,27 +18,11 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['username', 'email']
 
-from .models import Post
-
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ['title', 'content']
-
-from .models import Comment
-
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['content']
-        widgets = {
-            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Add a comment...'}),
-        }
-
 class PostForm(forms.ModelForm):
     tags = forms.CharField(
         required=False,
-        help_text='Enter tags separated by commas (e.g., django, python, blog)'
+        help_text='Enter tags separated by commas (e.g., django, python, blog)',
+        widget=TagWidget()                     # <-- This adds "TagWidget()" to the file
     )
 
     class Meta:
@@ -64,3 +50,11 @@ class PostForm(forms.ModelForm):
         else:
             instance.tags.clear()
         return instance
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Add a comment...'}),
+        }
